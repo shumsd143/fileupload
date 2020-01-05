@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>question and answer session</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body style="position: relative; background: url('https://images.squarespace-cdn.com/content/51c1e5a0e4b02e7fb0ce5e45/1371683464639-7XNBPL9KKWY7WLN244PQ/ground-crack.jpg?format=1000w&content-type=image%2Fjpeg');background-size: 100%;">
+    <nav class="navbar bg-dark navbar-dark">
+      <a class="navbar-brand" style="color:orange">Notes Sharing Platform</a>
+      <form class="form-inline" action="/">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+      </form>
+    </nav>
+    <br>
+    <button class="btn btn-link btn-block mt-4" data-toggle="modal" data-target="#comment" style="color:rebeccapurple;"><span style="color: white;">Want to add question  </span>click here!!!</button>
+          <div class="modal" id="comment">
+            <div class="modal-dialog">
+              <div class="modal-content">
+              
+                <div class="modal-header">
+                  <h4 class="modal-title">Type Your Question here!!!!</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                  <form action="/comment/post" method="POST">
+                    <div class="form-group">
+                      <input class="form-control input-sm" name="question" placeholder="type here.." type="text">
+                    </div>
+                  </form>
+                </div>
+                
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+              </div>
+          </div> 
+    <ul id="questionq" class="list-group">
+      
+    </ul>
+</body>
+<script>
+  function contentcreation(question,answer){
+    var arr=[]
+    var lister=document.getElementById('questionq')
+    var space=document.createElement('br')
+    var adder=document.createElement('li')
+    adder.classList.add('list-group-item')
+    var textnode=document.createTextNode(question)
+    arr=arr.concat(answer)
+    //console.log(answer)
+    if(answer){
+      var list=document.createElement('ul')
+      console.log(arr.length)
+      if(arr.length==1){
+        elq=document.createElement('li')
+        var newnode=document.createTextNode(arr[0])
+        elq.appendChild(newnode)
+        list.appendChild(elq)
+      }
+      else{
+      answer.forEach(element => {
+        elq=document.createElement('li')
+        var newnode=document.createTextNode(element)
+        elq.appendChild(newnode)
+        list.appendChild(elq)
+      });}}
+    var query="/comment/post/"+question
+    var form=document.createElement('form')
+    form.setAttribute("method","post")
+    form.setAttribute("action",query)
+    var div=document.createElement('div')
+    div.classList.add("form-group")
+    var input=document.createElement('input')
+    input.setAttribute('type','text')
+    input.setAttribute('name','comment')
+    input.setAttribute('placeholder','type answer....')
+    input.classList.add("form-control")
+    input.classList.add("input-sm")
+    div.appendChild(input)
+    form.appendChild(div)
+    adder.appendChild(textnode)
+    if(answer){
+      list.style.height='100px'
+    list.style.overflowY='scroll'
+    adder.appendChild(list)}
+    adder.appendChild(form)
+    lister.appendChild(space)
+    lister.appendChild(adder)
+  }
+  var xhr = new XMLHttpRequest();
+    xhr.addEventListener("readystatechange", function() {
+        //console.log('',xhr.readyState);
+        if (this.readyState === 4) {
+            data=JSON.parse(this.responseText)
+            seconddata=data.data
+            seconddata.forEach(element => {
+              if(element.question){
+              contentcreation(element.question,element.answer)}
+            });
+        }
+    });
+    xhr.open(
+    "GET",
+    "http://127.0.0.1:5000/comment"
+    );
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.send(null);
+</script>
+
+</html>

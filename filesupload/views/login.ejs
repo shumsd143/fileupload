@@ -1,0 +1,96 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script>
+            function logo() {
+                var form=document.forms['logi'];
+                var loginid=form['username'].value
+                var passwordb=form['password'].value
+                if(loginid==''||passwordb==''){
+                    window.alert('email or password must not be empty')
+                    return false
+                }
+                return true
+            }
+            function validate(){
+                var form=document.forms['log'];
+                var fname=form['username'].value;
+                var snamen=form['password'].value;
+                var phone=form['phone'].value;
+                var dom=form['email'].value;
+                var professions=form['proffesion'].value
+                if(fname=='')
+                {
+                    window.alert('please enter your name')
+                    return false
+                } 
+                if(snamen.indexOf(' ') >=0 || snamen=='')
+                {
+                    window.alert('please enter password properly')
+                    return false
+                }
+                if(phone.length !==10)
+                {
+                    window.alert('please enter correct number')
+                    return false
+                }
+                var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                if(reg.test(dom) == false)
+                {
+                    window.alert('please enter correct e-mail address')
+                    return false
+                }
+                return true
+            }
+        </script>
+    </head>
+    <body  style="position: relative; background: url('https://images.squarespace-cdn.com/content/51c1e5a0e4b02e7fb0ce5e45/1371683464639-7XNBPL9KKWY7WLN244PQ/ground-crack.jpg?format=1000w&content-type=image%2Fjpeg');background-size: 100%;">
+        <div>
+            <nav class="navbar">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand"><span style="color:orange;font-size:xx-large;">Notes Sharing Platform</a>
+                    </div>
+                    <form action="/student/login/posting" onsubmit="return logo()" name="logi" class="navbar-form navbar-right" method="POST">
+                        <div class="form-group">
+                            <label class="sr-only" for="email">Email:</label>
+                            <input type="email" name="username" class="form-control" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="pwd">Password:</label>
+                            <input type="password" name="password" class="form-control" placeholder="Enter password">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                </div>
+            </nav>
+            <form action="/student/loginpost" onsubmit="return validate()" name="log" method="POST" class="form-horizontal" style="color: ivory;margin-right: 2%; margin-top: 5%;width: 30%;float:right;font-size: 30px;">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" name="username" placeholder="Enter Name">
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Password:</label> 
+                      <input type="password" class="form-control" name="password" placeholder="Enter password">
+                </div>
+                <div class="form-group">
+                  <label for="Number">Phone Number:</label>
+                    <input type="tel" class="form-control" name="phone" placeholder="Enter Number">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                      <input type="email" class="form-control" name="email" placeholder="Enter email">
+                </div>
+                <div class="form-group"> 
+                        <label class="radio-inline"><input type="radio" value="student" name="proffesion" checked>Student</label>
+                        <label class="radio-inline"><input type="radio" value="teacher" name="proffesion">Teacher</label>
+                </div>
+                <div class="form-group"> 
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

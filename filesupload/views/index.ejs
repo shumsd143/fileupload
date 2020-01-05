@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Files Uploading</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script>
+      /* function validate(){
+                var form=document.forms['comment'];
+                const data=JSON.stringify({
+                  filename:document.getElementById('comm').value,
+                    comment:form['comment'].value
+                })
+                var xhr = new XMLHttpRequest();
+
+                xhr.addEventListener("readystatechange", function() {
+                if (this.readyState === 4) {
+                    console.log(this.readyState)
+                }
+                });
+
+                xhr.open(
+                "POST",
+                "http://127.0.0.1:5000/comment/post"
+                );
+                xhr.setRequestHeader("Content-Type", "application/json");
+                console.log(document.getElementById('comm').text)
+                xhr.send(data);
+                //window.alert("form submitted")
+                return false
+            }*/
+    </script> 
+</head>
+<body style="position: relative; background: url('https://images.squarespace-cdn.com/content/51c1e5a0e4b02e7fb0ce5e45/1371683464639-7XNBPL9KKWY7WLN244PQ/ground-crack.jpg?format=1000w&content-type=image%2Fjpeg');background-size: 100%;">
+  <nav class="navbar bg-dark navbar-dark">
+    <a class="navbar-brand" style="color:orange">Notes Sharing Platform</a>
+    <form class="form-inline" action="/">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+    </form>
+  </nav>
+  <br>
+  <center>
+    <form action="/upload" method="POST" enctype="multipart/form-data" style="width:50%;">
+      <div class="custom-file mb-3">
+        <input type="file" name="file" id="file" class="custom-file-input">
+        <label for="file" class="custom-file-label">Choose File</label>
+      </div>
+      <input type="submit" value="Submit" class="btn btn-primary btn-block">
+    </form>
+  </center>
+  <br>
+  <div class="container">
+  <div class="card-columns">
+    <% if(files){ %>
+      <% files.forEach(function(file) { %>
+        <div class="card bg-warning">
+          <div class="card-body text-center" style="height:20px;">
+            <a href="/files/<%= file.filename %>" id="comm" class="card-text"><%= file.filename %></a>
+          </div>
+          <!-- <button class="btn btn-link btn-block mt-4" data-toggle="modal" data-target="#comment" style="color:rebeccapurple;">Add Comment</button>
+          <div class="modal" id="comment">
+            <div class="modal-dialog">
+              <div class="modal-content">
+              
+                <div class="modal-header">
+                  <h4 class="modal-title">Comments</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <div class="modal-body" style="overflow-y: scroll;max-height: 250px;">
+        
+                </div>
+                  <form action="/comment/post" method="POST" name="comment" onsubmit="return validate()">
+                    <div class="form-group">
+                      <input class="form-control input-sm" name="comment" class="comment" placeholder="type here.." type="text">
+                    </div>
+                  </form>
+                
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+              </div>
+          </div> -->      
+          <form method="POST" action="/files/<%= file._id %>?_method=DELETE">
+            <button class="btn btn-danger btn-block mt-4">Delete</button>
+          </form>
+        </div>
+      <% }) %>
+  </div>
+    <% } else { %>
+    <p>No files to show</p>
+  <% } %></div>
+  <footer><center><span>Have a question or want to answer </span><a href="/qsession" style="color: aqua;">click here!!!</a></center></footer>
+</body>
+</html>
