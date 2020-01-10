@@ -30,22 +30,15 @@ app.use(cors())
 const mongoURI = 'mongodb+srv://todos:shubham@cluster0-vh32b.mongodb.net/test?retryWrites=true&w=majority';
 
 
-
-// Create mongo connection
-
 const conn = mongoose.createConnection(mongoURI);
 
 
-
-// Init gfs
 
 let gfs;
 
 
 
 conn.once('open', () => {
-
-  // Init stream
 
   gfs = Grid(conn.db, mongoose.mongo);
 
@@ -55,7 +48,7 @@ conn.once('open', () => {
 
 
 
-// Create storage engine
+
 
 const storage = new GridFsStorage({
 
@@ -87,10 +80,6 @@ const upload = multer({ storage });
 
 
 
-// @route GET /
-
-// @desc Loads form
-
 app.get('/home', (req, res) => {
 
   gfs.files.find().toArray((err, files) => {
@@ -120,10 +109,6 @@ app.get('/qsession',(req,res)=>{
   res.sendfile('./qna.html')
 })
 
-// @route POST /upload
-
-// @desc  Uploads file to DB
-
 
 
 app.post('/upload', upload.single('file'), (req, res) => {
@@ -138,8 +123,6 @@ app.get('/files/:filename', (req, res) => {
 
   gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
 
-    // Check if file
-
     if (!file || file.length === 0) {
 
       return res.status(404).json({
@@ -149,8 +132,6 @@ app.get('/files/:filename', (req, res) => {
       });
 
     }
-
-    // File exists
 
     const readstream = gfs.createReadStream(file.filename);
 
@@ -175,7 +156,7 @@ app.delete('/files/:id', (req, res) => {
   });
 
 });
-//start mongodb comment
+
 
 
 const mongodb=require('mongodb')
@@ -337,12 +318,12 @@ mongodb.MongoClient.connect(db_url,(error,dbClient)=>{
             res.send('data deleted')
         })
     })
-    //student info end
+    //student inf end
 })
 
 
 
 
-const port = 5000;
+const PORT =process.env.PORT || 5000;
 
-app.listen(port, () => console.log(`Server started on port ${port}`));
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
