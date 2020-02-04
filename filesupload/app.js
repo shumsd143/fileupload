@@ -29,14 +29,9 @@ app.use(cors())
 
 const mongoURI = 'mongodb+srv://todos:shubham@cluster0-vh32b.mongodb.net/test?retryWrites=true&w=majority';
 
-
 const conn = mongoose.createConnection(mongoURI);
 
-
-
 let gfs;
-
-
 
 conn.once('open', () => {
 
@@ -99,6 +94,15 @@ app.get('/home', (req, res) => {
   });
 
 });
+app.get('/allfileinfo',(req,res)=>{
+  gfs.files.find().toArray((err, files) => {
+    if (!files || files.length === 0) {
+      res.render('index', { files: false });
+    } else { 
+      res.send({ files: files });
+    }
+  });
+})
 
 app.get('/',(req,res)=>{
   res.render('login')
@@ -108,8 +112,6 @@ app.get('/',(req,res)=>{
 app.get('/qsession',(req,res)=>{
   res.sendfile('./qna.html')
 })
-
-
 
 app.post('/upload', upload.single('file'), (req, res) => {
 
